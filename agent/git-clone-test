@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Git branch to build')
+    }
+
+    environment {
+        // Replace with the ID of a Jenkins credential of type “Username with password” or “SSH Key”
+        GIT_CREDENTIALS_ID = 'githubbb'
+    }
+
+    stages {
+        stage('Clone GitHub Repository') {
+            steps {
+                script {
+                    def repoUrl = "https://github.com/Bhanuprasad124/helm.git"
+                    git(
+                        branch: params.BRANCH,
+                        credentialsId: env.GIT_CREDENTIALS_ID,
+                        url: repoUrl
+                    )
+                }
+            }
+        }
+    }
+}
